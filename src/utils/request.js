@@ -23,21 +23,21 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(
   response => {
     loadingInstance.close()
-    const { errno, data, errmsg } = response.data
-    if (errno === 0) {
-      if (errmsg !== '') {
+    const { code, data, msg } = response.data
+    if (code === 1) {
+      if (msg !== '') {
         notification({
-          message: errmsg,
+          message: msg,
           type: 'success'
         })
       }
       return data || true
     }
     notification({
-      message: errmsg,
+      message: msg,
       type: 'error'
     })
-    if (errno === 2) {
+    if (code === 2) {
       router.push({ name: 'login' })
     }
     return false

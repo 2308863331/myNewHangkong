@@ -11,7 +11,7 @@
         <h1>WELCOME</h1>
         <p>JOIN US!</p>
         <div class="img-box">
-          <img src="../assets/img/waoku.jpg" alt="" id="avatar" />
+          <img src="../../public/images/waoku.jpg" alt="" id="avatar" />
         </div>
       </div>
       <!-- 注册盒子 -->
@@ -105,10 +105,11 @@
 import { Lock, User } from '@element-plus/icons-vue'
 import mySwitch from '../utils/mySwitch'
 import { reactive, ref } from 'vue'
-import { login } from '../api'
+import { login } from '../api/index'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
 import { onMounted } from '@vue/runtime-core'
+import notification from '../utils/notification'
 const loginForm = reactive({
   username: '',
   password: ''
@@ -137,31 +138,44 @@ const rules = reactive({
 })
 
 const router = useRouter()
-
-
+import useToken from '../stores/token'
+const { updateToken } = useToken()
 const loginApi = () => {
   loginFormRef.value.validate(async valid => {
     if (valid) {
-      const data = await login(loginForm)
-      if (data) {
-        updateToken(data.token)
-        router.push({ name: 'index' })
+      try {
+        const response = await login(loginForm);
+        console.log('Full API response:', response); // 打印完整的 API 响应
+
+        // 确保 response 对象有 data 属性，并且 data.code 存在且等于 1
+        if (response ) {
+          console.log("ok");
+          updateToken(response.token);
+          router.push({ name: 'index' });
+        } else {
+          console.log("no");
+          console.log('Response data:', response.data); // 打印具体的响应数据
+          notification({
+            message: '登录失败，请重试',
+            type: 'error'
+          });
+        }
+      } catch (error) {
+        console.error('Login error:', error); // 打印错误信息
+        notification({
+          message: '登录出错，请重试',
+          type: 'error'
+        });
       }
-      
-    } else {
-      notification({
-        message: '表单填写有误',
-        type: 'error'
-      })
     }
-  })
-}
+  });
+};
 
 const register = () => {
   registerFormRef.value.validate(async valid => {
     if (valid) {
       const data = await regist(loginForm)
-      if (code===1) {
+      if (data.code===1) {
         const showSuccessMessage = () => {
           ElMessage({
             message: '注册成功',

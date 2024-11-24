@@ -11,7 +11,7 @@ const mySwitch = () => {
     else {
         pre_box.style.transform = "translateX(0%)"
         pre_box.style.backgroundColor = "#edd4dc"
-        img.src = require("@/assets/img/waoku.jpg")
+        img.src = require("../../public/images/waoku.jpg")
     }
     flag.value = !flag.value
 }
