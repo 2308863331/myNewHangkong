@@ -12,7 +12,7 @@
           </el-menu-item>
         </router-link>
         <!-- 分类管理 -->
-        <router-link :to="{ name: 'category' }">
+        <router-link :to="{ name: 'flights' }">
           <el-menu-item index="2">
             <el-icon>
               <List />
@@ -49,7 +49,7 @@ import { ref } from 'vue'
 import router from '../router'
 const menuIndex = {
   'index': '1',
-  'category': '2',
+  'flights': '2',
   'goods': '3',
   'setting': '4'
 }

@@ -1,7 +1,7 @@
 <template>
   <el-form ref="formRef" :model="form" label-width="120px">
     <!-- 分类名称  -->
-    <el-form-item prop="name" label="分类名称" style="width: 92%">
+    <el-form-item prop="name" label="航班名称" style="width: 92%">
       <el-input v-model="form.name" placeholder="请填写分类名称" />
     </el-form-item>
     <!-- 是否为二级分类 -->
@@ -14,7 +14,7 @@
     <!-- 上级分类 -->
     <el-form-item v-show="showMore" label="上级分类" prop="pid">
       <el-select v-model="form.pid" placeholder="请选择上级分类名称" >
-        <el-option v-for="item in categoryList" :key="item.id" :label="item.name" :value="item.id" />
+        <el-option v-for="item in flightsList" :key="item.id" :label="item.name" :value="item.id" />
       </el-select>
     </el-form-item>
     <!-- 分类图片 -->
@@ -25,7 +25,7 @@
         v-model:file-list="fileList"
         :action="uploadPictureURL()"
         :headers="{ jwt: token }"
-        :data="{ type: 'category_picture' }"
+        :data="{ type: 'flights_picture' }"
         :limit="1"
         :on-exceed="handleExceed"
         :on-success="uploadSuccess"
@@ -68,7 +68,7 @@ const form = reactive({
 })
 
 const formRef = ref()
-const categoryList = ref([])
+const flightsList = ref([])
 const showMore = ref(false)
 const fileList = ref([])
 const uploadRef = ref()
@@ -90,7 +90,7 @@ const loadCategory = async() => {
     Object.assign(form, data)
   }
   const list = await getCategoryList()
-  categoryList.value = list.filter(item => item.pid == 0)
+  flightsList.value = list.filter(item => item.pid == 0)
   showMore.value = form.pid != 0
 }
 

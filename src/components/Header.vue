@@ -1,7 +1,7 @@
 <template>
   <div></div>
   <el-menu class="el-menu-demo" mode="horizontal" :ellipsis="false">
-    <div class="navbar">“微商城”后台管理系统</div>
+    <div class="navbar">中国国航售票后台管理系统</div>
     <el-sub-menu class="menu" index="1">
       <template #title>
         <el-avatar class="avatar" :src="admin.avatar"> {{ admin.username }} </el-avatar>

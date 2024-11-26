@@ -17,10 +17,10 @@ const router = createRouter({
           meta: { title: '首页' },
         },
         {
-          path: '/category',
-          name: 'category',
+          path: '/flights',
+          name: 'flights',
           component: () => import('../pages/subpages/Category.vue'),
-          meta: { title: '分类管理' },
+          meta: { title: '航班管理' },
         },
         {
           path: '/goods',

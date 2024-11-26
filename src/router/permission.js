@@ -5,7 +5,7 @@ import notification from '../utils/notification'
 const whiteList = ['/login']
 
 router.beforeEach((to, from, next) => {
-  document.title = to.meta.title + ' - ' + '后台管理系统'
+  document.title = to.meta.title + ' - ' + '中国国航售票后台管理系统'
   const { token } = useToken()
   if (token) {
     next()

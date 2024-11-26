@@ -5,10 +5,10 @@
       <el-input v-model="form.name" placeholder="请填写商品名称" />
     </el-form-item>
     <!-- 商品分类 -->
-    <el-form-item label="分类名称" prop="category_id">
-      <el-select v-model="form.category_id" placeholder="请选择二级分类名称" >
-        <el-option-group v-for="category in categoryList" :key="category.id" :label="category.name">
-          <el-option v-for="item in category.children" :key="item.id" :label="item.name" :value="item.id" />
+    <el-form-item label="分类名称" prop="flights_id">
+      <el-select v-model="form.flights_id" placeholder="请选择二级分类名称" >
+        <el-option-group v-for="flights in flightsList" :key="flights.id" :label="flights.name">
+          <el-option v-for="item in flights.children" :key="item.id" :label="item.name" :value="item.id" />
         </el-option-group>
       </el-select>
     </el-form-item>
@@ -101,7 +101,7 @@ const emit = defineEmits(['success'])
 const form = reactive({
   id: props.id,
   name: '',
-  category_id: '',
+  flights_id: '',
   price: '',
   picture: '',
   album: [],
@@ -110,7 +110,7 @@ const form = reactive({
   description: ''
 })
 const formRef = ref()
-const categoryList = ref([])
+const flightsList = ref([])
 const fileList = ref([])
 const uploadRef = ref()
 
@@ -150,7 +150,7 @@ const loadGoods = async () => {
     Object.assign(form, goods)
   }
   const data = await getCategoryList()
-  categoryList.value = convertToTree(data)
+  flightsList.value = convertToTree(data)
 }
 
 const convertToTree = data => {
@@ -175,7 +175,7 @@ const convertToTree = data => {
 const addSubmit = async () => {
   const data = {
     name: form.name,
-    category_id: form.category_id,
+    flights_id: form.flights_id,
     price: form.price,
     picture: form.picture,
     album: form.album,

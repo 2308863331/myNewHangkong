@@ -172,7 +172,7 @@ const initCharts2 = () => {
       containLabel: true,
     },
     xAxis: {
-      type: 'category',
+      type: 'flights',
       data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
       name: '月份',
       // 类目轴中在 boundaryGap 为 true 的时候有效，可以保证刻度线和标签对齐

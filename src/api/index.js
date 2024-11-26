@@ -27,28 +27,28 @@ export function uploadPictureURL() {
 }
 
 // 分类列表接口
-export function getCategoryList() {
-  return request.get('/admin/category/list')
+export function getFligthsList() {
+  return request.get('/admin/flights/list')
 }
 
 // 查询单个分类接口
 export function getCategory(params) {
-  return request.get('/admin/category', { params })
+  return request.get('/admin/flights', { params })
 }
 
 // 新增分类接口
 export function addCategory(data) {
-  return request.post('/admin/category/add', data)
+  return request.post('/admin/flights/add', data)
 }
 
 // 修改分类接口
 export function editCategory(data) {
-  return request.post('/admin/category/save', data)
+  return request.post('/admin/flights/save', data)
 }
 
 // 删除分类接口
 export function delCategory(data) {
-  return request.post('/admin/category/del', data)
+  return request.post('/admin/flights/del', data)
 }
 
 // 商品列表接口

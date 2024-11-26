@@ -3,10 +3,33 @@
     <el-button type="primary" style="margin-bottom: 10px" @click="addRow">新增分类</el-button>
     <!-- 新增分类的弹出框 -->
     <el-dialog v-model="dialogVisible" :title="id ? '修改分类' : '新增分类'" :before-close="handleBeforeClose">
-      <CategoryEdit ref="categoryForm" :id="id" @success="editSuccess" />
+      <CategoryEdit ref="flightsForm" :id="id" @success="editSuccess" />
     </el-dialog>
-    <!-- 分类管理 -->
+    <!-- 航班管理 -->
+
     <el-table ref="tableRef" :data="tableData" style="margin-bottom: 20px" row-key="id" border default-expand-all>
+    <el-table-column prop="id" label="航班ID" />
+    <el-table-column prop="flight_number" label="航班号" sortable />
+    <el-table-column label="航班状态">
+      <template #default="{ row }">
+        <span>{{ row.status }}</span>
+      </template>
+    </el-table-column>
+    <el-table-column prop="departure_airport" label="出发机场" />
+    <el-table-column prop="arrival_airport" label="到达机场" />
+    <el-table-column prop="departure_time" label="出发时间" />
+    <el-table-column prop="arrival_time" label="到达时间" />
+    <el-table-column prop="created_at" label="创建时间" />
+    <el-table-column prop="updated_at" label="更新时间" />
+    <el-table-column fixed="right" label="操作" width="180">
+      <template #default="{ row }">
+        <el-button type="warning" @click="editRow(row)">编辑</el-button>
+        <el-button type="danger" @click="delRow(row)">删除</el-button>
+      </template>
+    </el-table-column>
+  </el-table>
+
+    <!-- <el-table ref="tableRef" :data="tableData" style="margin-bottom: 20px" row-key="id" border default-expand-all>
       <el-table-column prop="name" label="分类名称" sortable />
       <el-table-column label="分类级别">
         <template #default="{ row }">
@@ -26,20 +49,20 @@
           <el-button type="danger" @click="delRow(row)">删除</el-button>
         </template>
       </el-table-column>
-    </el-table>
+    </el-table> -->
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { getCategoryList, delCategory } from '../../api'
+import { getFligthsList, delCategory } from '../../api'
 import { ElMessageBox, ElMessage } from 'element-plus'
 import CategoryEdit from '../../components/CategoryEdit.vue'
 
 const tableData = ref([])
 const dialogVisible = ref(false)
 const id = ref(0)
-const categoryForm = ref()
+const flightsForm = ref()
 
 onMounted(() => {
   loadCategoryList()
@@ -47,7 +70,7 @@ onMounted(() => {
 
 // 查询分类列表
 const loadCategoryList = async () => {
-  const data = await getCategoryList()
+  const data = await getFligthsList()
   tableData.value = convertToTree(data)
 }
 
@@ -74,8 +97,8 @@ const convertToTree = data => {
 
 // 新增分类
 const addRow = () => {
-  if (categoryForm.value) {
-    categoryForm.value.resetForm(0)
+  if (flightsForm.value) {
+    flightsForm.value.resetForm(0)
   }
   id.value = 0
   dialogVisible.value = true
@@ -83,8 +106,8 @@ const addRow = () => {
 
 // 修改分类
 const editRow = row => {
-  if (categoryForm.value) {
-    categoryForm.value.resetForm(row.id)
+  if (flightsForm.value) {
+    flightsForm.value.resetForm(row.id)
   }
   id.value = row.id
   dialogVisible.value = true
