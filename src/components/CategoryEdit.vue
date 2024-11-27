@@ -49,7 +49,7 @@
 
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
-import { getCategory, getCategoryList, uploadPictureURL, addCategory, editCategory } from '../api'
+import { getCategory, getFlightsList, uploadPictureURL, addCategory, editCategory } from '../api'
 import useToken from '../stores/token'
 
 const props = defineProps({
@@ -89,7 +89,7 @@ const loadCategory = async() => {
     }
     Object.assign(form, data)
   }
-  const list = await getCategoryList()
+  const list = await getFlightsList()
   flightsList.value = list.filter(item => item.pid == 0)
   showMore.value = form.pid != 0
 }

@@ -1,39 +1,25 @@
 <template>
   <div>
     <!-- 新增商品按钮 -->
-    <!-- 当点击按钮时，触发 addRow 方法，显示新增商品的弹出框 -->
     <el-button type="primary" style="margin-bottom: 10px;" @click="addRow">新增商品</el-button>
 
     <!-- 新增或修改商品的弹出框 -->
-    <!-- 使用 v-model 控制对话框的显示与隐藏，标题根据是否有 id 判断显示新增还是修改 -->
     <el-dialog v-model="dialogVisible" :title="id ? '修改商品' : '新增商品'" :before-close="handleBeforeClose">
-      <!-- GoodsEdit 组件负责处理商品信息的编辑 -->
-      <!-- 通过 ref 引用 GoodsEdit 组件实例，便于在父组件中调用其方法 -->
-      <!-- 将 id 作为属性传递给 GoodsEdit 组件，用于区分是新增还是修改 -->
-      <!-- 监听 GoodsEdit 组件的成功事件，当编辑成功时执行 editSuccess 方法 -->
       <GoodsEdit ref="goodsForm" :id="id" @success="editSuccess" />
     </el-dialog>
 
     <!-- 商品列表 -->
-    <!-- 使用 el-table 组件展示商品列表，每列显示不同的商品信息 -->
-    <el-table :data="goodsList" style="width: 100%; margin-bottom: 20px" row-key="id" border default-expand-all>
-      <el-table-column prop="id" label="商品编号" width="100" />
-      <el-table-column prop="name" label="商品名称" width="260" />
-      <el-table-column prop="price" label="商品价格" width="100" />
-      <el-table-column prop="stock" label="商品库存" width="100" />
-      <el-table-column prop="description" label="商品简介" />
-      <!-- 商品图片列 -->
-      <el-table-column prop="picture" label="商品图片" width="120">
-        <!-- 使用作用域插槽自定义列内容 -->
-        <!-- 当有图片时，显示图片；否则显示空白 -->
-        <template #default="{ row }">
-          <el-image v-if="row.picture != ''" :src="row.picture" fit="contain"
-            style="display: flex; align-items: center; height: 60px;" />
-        </template>
-      </el-table-column>
-      <!-- 操作列 -->
+    <el-table :data="goodsList" style="width: 100%; margin-bottom: 20px">
+      <el-table-column prop="id" label="航班ID" />
+      <el-table-column prop="flightNumber" label="航班号" sortable />
+      <el-table-column prop="status" label="航班状态" sortable />
+      <el-table-column prop="departureAirport" label="出发机场" />
+      <el-table-column prop="arrivalAirport" label="到达机场" />
+      <el-table-column prop="departureTime" label="出发时间" />
+      <el-table-column prop="arrivalTime" label="到达时间" />
+      <el-table-column prop="createdTime" label="创建时间" />
+      <el-table-column prop="updatedTime" label="更新时间" />
       <el-table-column fixed="right" label="操作" width="200">
-        <!-- 使用作用域插槽为每行添加操作按钮 -->
         <template #default="{ row }">
           <el-button type="warning" @click="editRow(row)">编辑</el-button>
           <el-button type="danger" @click="delRow(row)">删除</el-button>
@@ -42,9 +28,6 @@
     </el-table>
 
     <!-- 分页组件 -->
-    <!-- 使用 el-pagination 组件实现分页功能 -->
-    <!-- 绑定当前页码，监听当前页变化事件 -->
-    <!-- total 表示总记录数，pagesize 表示每页显示的记录数 -->
     <el-pagination
       v-model:current-page="page"
       background layout="prev, pager, next"
@@ -82,12 +65,25 @@ const loadGoodsList = async () => {
     page: page.value, // 当前页码
     pagesize: pagesize.value // 每页显示的数量
   }
-  const data = await getGoodsList(params) // 发送请求获取商品列表
-  goodsList.value = data.list.map(item => {
-    item.description = removeTages(item.description) // 移除商品简介中的 HTML 标签
-    return item
-  })
-  total.value = data.total // 更新总记录数
+  try {
+    const response = await getGoodsList(params) // 发送请求获取商品列表
+    console.log('API Response:', response) // 添加调试信息
+    if (response.total !== undefined && response.records !== undefined) {
+      if (Array.isArray(response.records)) {
+        goodsList.value = response.records.map(item => {
+          item.description = removeTages(item.description || '') // 移除商品简介中的 HTML 标签
+          return item
+        })
+        total.value = response.total // 更新总记录数
+      } else {
+        console.error('Invalid data structure:', response)
+      }
+    } else {
+      console.error('Failed to fetch goods list: Missing total or records')
+    }
+  } catch (error) {
+    console.error('Error fetching goods list:', error)
+  }
 }
 
 // 去掉标签，仅显示文字
@@ -115,7 +111,7 @@ const editRow = row => {
 
 // 删除商品
 const delRow = row => {
-  ElMessageBox.confirm('确定要删除此商品吗？', { // 创建确认对话框
+  ElMessageBox.confirm('确定要删除此商品吗？', {
     closeOnClickModal: false,
     confirmButtonText: '确定',
     cancelButtonText: '取消',
@@ -140,7 +136,7 @@ const editSuccess = () => {
 
 // 关闭弹出框前
 const handleBeforeClose = () => {
-  ElMessageBox.confirm('确定关闭对话框吗？', { // 创建确认对话框
+  ElMessageBox.confirm('确定关闭对话框吗？', {
     showClose: false,
     closeOnClickModal: false,
     confirmButtonText: '确定',
@@ -153,3 +149,6 @@ const handleBeforeClose = () => {
   }).catch(() => {}) // 用户取消关闭操作
 }
 </script>
+
+
+

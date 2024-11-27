@@ -49,7 +49,7 @@ import { ref } from 'vue'
 import router from '../router'
 const menuIndex = {
   'index': '1',
-  'flights': '2',
+  'flights/list': '2',
   'goods': '3',
   'setting': '4'
 }

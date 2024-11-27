@@ -1,78 +1,44 @@
 <template>
-  <el-form ref="formRef" :model="form" label-width="120px">
-    <!-- 商品名称  -->
-    <el-form-item label="商品名称" prop="name" style="width: 92%">
-      <el-input v-model="form.name" placeholder="请填写商品名称" />
+  <el-form ref="flightFormRef" :model="form" label-width="120px">
+    <!-- 航班号 -->
+    <el-form-item label="航班号" prop="flightNumber" style="width: 92%">
+      <el-input v-model="form.flightNumber" placeholder="请填写航班号" />
     </el-form-item>
-    <!-- 商品分类 -->
-    <el-form-item label="分类名称" prop="flights_id">
-      <el-select v-model="form.flights_id" placeholder="请选择二级分类名称" >
-        <el-option-group v-for="flights in flightsList" :key="flights.id" :label="flights.name">
-          <el-option v-for="item in flights.children" :key="item.id" :label="item.name" :value="item.id" />
-        </el-option-group>
+    <!-- 出发机场 -->
+    <el-form-item label="出发机场" prop="departureAirport" style="width: 92%">
+      <el-input v-model="form.departureAirport" placeholder="请填写出发机场" />
+    </el-form-item>
+    <!-- 到达机场 -->
+    <el-form-item label="到达机场" prop="arrivalAirport" style="width: 92%">
+      <el-input v-model="form.arrivalAirport" placeholder="请填写到达机场" />
+    </el-form-item>
+    <!-- 出发时间 -->
+    <el-form-item label="出发时间" prop="departureTime" style="width: 92%">
+      <el-date-picker
+        v-model="form.departureTime"
+        type="datetime"
+        placeholder="请选择出发时间"
+        format="YYYY-MM-DD HH:mm:ss"
+        value-format="YYYY-MM-DD HH:mm:ss"
+      />
+    </el-form-item>
+    <!-- 到达时间 -->
+    <el-form-item label="到达时间" prop="arrivalTime" style="width: 92%">
+      <el-date-picker
+        v-model="form.arrivalTime"
+        type="datetime"
+        placeholder="请选择到达时间"
+        format="YYYY-MM-DD HH:mm:ss"
+        value-format="YYYY-MM-DD HH:mm:ss"
+      />
+    </el-form-item>
+    <!-- 航班状态 -->
+    <el-form-item label="航班状态" prop="status" style="width: 92%">
+      <el-select v-model="form.status" placeholder="请选择航班状态">
+        <el-option label="按时" value="按时" />
+        <el-option label="延误" value="延误" />
+        <el-option label="取消" value="取消" />
       </el-select>
-    </el-form-item>
-    <!-- 商品价格  -->
-    <el-form-item label="商品价格" prop="price" style="width: 92%">
-      <el-input v-model="form.price" placeholder="请填写商品价格" />
-    </el-form-item>
-    <!-- 商品图片 -->
-    <el-form-item label="商品图片">
-      <el-upload
-        ref="uploadRef"
-        v-model:file-list="fileList"
-        class="upload-demo"
-        :action="uploadURL"
-        :headers="headers"
-        :data="{ type: 'goods_picture' }"
-        :limit="1"
-        :on-exceed="handleExceed"
-        :on-success="uploadSuccess"
-      >
-        <template #trigger>
-          <el-button type="primary" style="text-align: left;">选择图片</el-button>
-        </template>
-        <template #tip>
-          <div class="el-upload__tip">
-            图片文件大小不超过500KB
-          </div>
-        </template>
-      </el-upload>
-    </el-form-item>
-    <!-- 商品相册 -->
-    <el-form-item label="图片相册" prop="album">
-      <el-upload
-        ref="albumUploadRef"
-        class="upload-demo"
-        list-type="picture-card"
-        v-model:file-list="albumFileList"
-        :action="uploadURL"
-        :data="{ type: 'goods_album' }"
-        :headers="headers"
-        :on-preview="handlePictureCardPreview"
-        :on-remove="albumHandleRemove"
-        :on-success="albumUploadSuccess"
-        :multiple="true"
-      >
-        <el-icon>
-          <Plus />
-        </el-icon>
-      </el-upload>
-      <el-dialog v-model="albumDialogVisible" align-center width="30%">
-        <el-Image :src="albumDialogImageUrl" />
-      </el-dialog>
-    </el-form-item>
-    <!-- 商品库存 -->
-    <el-form-item label="商品库存" prop="stock" style="width: 92%">
-      <el-input v-model="form.stock" placeholder="请填写库存数量" />
-    </el-form-item>
-    <!-- 商品规格 -->
-    <el-form-item label="商品规格" prop="spec" style="width: 92%">
-      <el-input v-model="form.spec" placeholder="请填写商品规格" />
-    </el-form-item>
-    <!-- 商品简介 -->
-    <el-form-item label="商品简介" prop="description" style="width: 92%" class="desc">
-      <Editor :init="initEditor" v-model="form.description"></Editor>
     </el-form-item>
     <!-- 操作按钮 -->
     <el-form-item>
@@ -85,10 +51,9 @@
 
 <script setup>
 import { reactive, ref, onMounted } from 'vue'
-import { getCategoryList, uploadPictureURL, getGoods, addGoods, editGoods } from '../api'
+import { getFlightsList, uploadPictureURL, getGoods, addGoods, editGoods } from '../api'
 import useToken from '../stores/token'
 import { Plus } from '@element-plus/icons-vue'
-
 
 const props = defineProps({
   id: {
@@ -100,26 +65,22 @@ const emit = defineEmits(['success'])
 
 const form = reactive({
   id: props.id,
-  name: '',
-  flights_id: '',
-  price: '',
-  picture: '',
-  album: [],
-  stock: '',
-  spec: '',
-  description: ''
+  flightNumber: '',
+  departureAirport: '',
+  arrivalAirport: '',
+  departureTime: '',
+  arrivalTime: '',
+  status: ''
 })
-const formRef = ref()
+const flightFormRef = ref()
 const flightsList = ref([])
-const fileList = ref([])
-const uploadRef = ref()
 
-const uploadURL = uploadPictureURL()
 const { token } = useToken()
 const headers = { jwt: token }
 
 onMounted(() => {
-  loadGoods()
+  loadFlight()
+  loadFlights()
 })
 
 const resetForm = id => {
@@ -129,27 +90,15 @@ const resetForm = id => {
 
 defineExpose({ resetForm })
 
-const loadGoods = async () => {
+const loadFlight = async () => {
   if (form.id) {
     const goods = await getGoods({ id: form.id })
-    if (goods.picture !== '') {
-      const fileName = goods.picture.substring(goods.picture.lastIndexOf('/') + 1)
-      if (fileName) {
-        fileList.value = [{ name: fileName, url: goods.picture }]
-      }
-    }
-    albumFileList.value = goods.album.map(item => {
-      return {
-        name: item.picture.substring(item.picture.lastIndexOf('/') + 1),
-        url: item.picture
-      }
-    })
-    goods.album = goods.album.map(item => {
-      return item.picture.replace(/^https?:\/\/.*?\//, '')
-    })
     Object.assign(form, goods)
   }
-  const data = await getCategoryList()
+}
+
+const loadFlights = async () => {
+  const data = await getFlightsList()
   flightsList.value = convertToTree(data)
 }
 
@@ -171,26 +120,107 @@ const convertToTree = data => {
   return treeData
 }
 
-// 新增商品
+// 新增航班
 const addSubmit = async () => {
   const data = {
-    name: form.name,
-    flights_id: form.flights_id,
-    price: form.price,
-    picture: form.picture,
-    album: form.album,
-    stock: form.stock,
-    spec: form.spec,
-    description: form.description
+    flightNumber: form.flightNumber,
+    departureAirport: form.departureAirport,
+    arrivalAirport: form.arrivalAirport,
+    departureTime: form.departureTime,
+    arrivalTime: form.arrivalTime,
+    status: form.status
   }
-  if (await addGoods(data)) {
+  if (await addGoods(data)) { // 保持现有API调用不变
     emit('success')
   }
 }
 
-// 修改商品
+// 修改航班
 const editSubmit = async () => {
-  if (await editGoods(form)) {
+  if (await editGoods(form)) { // 保持现有API调用不变
+    emit('success')
+  }
+}
+
+// 重置表单
+const btnCancel = () => {
+  flightFormRef.value.resetFields()
+  form.flightNumber = ''
+  form.departureAirport = ''
+  form.arrivalAirport = ''
+  form.departureTime = ''
+  form.arrivalTime = ''
+  form.status = ''
+}
+</script>
+
+<style scoped>
+.el-form-item {
+  text-align: left;
+}
+.upload-demo {
+  text-align: left;
+  width: 91%;
+}
+</style>
+
+
+
+
+
+
+
+
+<!-- 
+<script setup>
+import { reactive, ref, onMounted } from 'vue'
+import { getGoods, addGoods, editGoods } from '../api' // 保持现有API路径不变
+import useToken from '../stores/token'
+
+const props = defineProps({
+  id: {
+    type: Number
+  }
+})
+
+const formRef = ref()
+
+onMounted(() => {
+  loadFlight()
+})
+
+const resetForm = id => {
+  form.id = id
+  btnCancel()
+}
+
+defineExpose({ resetForm })
+
+const loadFlight = async () => {
+  if (form.id) {
+    const flight = await getGoods({ id: form.id }) // 保持现有API调用不变
+    Object.assign(form, flight)
+  }
+}
+
+// 新增航班
+const addSubmit = async () => {
+  const data = {
+    flightNumber: form.flightNumber,
+    departureAirport: form.departureAirport,
+    arrivalAirport: form.arrivalAirport,
+    departureTime: form.departureTime,
+    arrivalTime: form.arrivalTime,
+    status: form.status
+  }
+  if (await addGoods(data)) { // 保持现有API调用不变
+    emit('success')
+  }
+}
+
+// 修改航班
+const editSubmit = async () => {
+  if (await editGoods(form)) { // 保持现有API调用不变
     emit('success')
   }
 }
@@ -198,103 +228,17 @@ const editSubmit = async () => {
 // 重置表单
 const btnCancel = () => {
   formRef.value.resetFields()
-  form.picture = ''
-  uploadRef.value.clearFiles()
-  form.album = []
-  albumUploadRef.value.clearFiles()
-  loadGoods()
+  form.flightNumber = ''
+  form.departureAirport = ''
+  form.arrivalAirport = ''
+  form.departureTime = ''
+  form.arrivalTime = ''
+  form.status = ''
 }
-
-// 文件超出个数限制时替换已有图片
-const handleExceed = files => {
-  uploadRef.value.clearFiles()
-  uploadRef.value.handleStart(files[0])
-  uploadRef.value.submit()
-}
-
-// 上传成功
-const uploadSuccess = response => {
-  const { errno, errmsg, data } = response
-  if (errno !== 0) {
-    notification({
-      message: errmsg,
-      type: 'error'
-    })
-  } else {
-    if (errmsg !== '') {
-      notification({
-        message: errmsg,
-        type: 'success'
-      })
-    }
-    form.picture = data.savepath
-  }
-}
-
-const albumUploadRef = ref()
-const albumDialogImageUrl = ref('')
-const albumDialogVisible = ref(false)
-const albumFileList = ref([])
-
-// 相册图上传成功  
-const albumUploadSuccess = response => {
-  const { errno, errmsg, data } = response
-  if (errno !== 0) {
-    notification({
-      message: errmsg,
-      type: 'error'
-    })
-  } else {
-    if (errmsg !== '') {
-      notification({
-        message: errmsg,
-        type: 'success'
-      })
-    }
-    form.album.push(data.savepath)
-  }
-}
-
-// 删除相册图
-const albumHandleRemove = (removeFile, uploadFiles) => {
-  form.album = []
-  uploadFiles.forEach(item => {
-    form.album.push(item.url.replace(/^https?:\/\/.*?\//, ''))
-  })
-}
-
-// 预览已上传的相册图
-const handlePictureCardPreview = uploadFile => {
-  albumDialogImageUrl.value = uploadFile.url
-  albumDialogVisible.value = true
-}
-
-import Editor from '@tinymce/tinymce-vue'
-
-import 'tinymce/tinymce'
-import 'tinymce/models/dom'
-import 'tinymce/themes/silver'
-import 'tinymce/icons/default'
-import 'tinymce/plugins/image'
-
-// 编辑器配置
-let initEditor = {
-  width: '100%',
-  skin_url: '/tinymce/skins/ui/oxide',
-  content_css: '/tinymce/skins/content/default/content.css',
-  language_url: '/tinymce/langs/zh-Hans.js',
-  language: 'zh-Hans',
-  menubar: false,
-  statusbar: false,
-  toolbar: 'bold underline italic strikethrough image undo redo',
-  plugins: 'image',
-}
-
 </script>
 
 <style scoped>
-.upload-demo {
+.el-form-item {
   text-align: left;
-  width: 91%;
 }
-</style>
+</style> -->

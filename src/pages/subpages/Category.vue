@@ -55,9 +55,9 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { getFligthsList, delCategory } from '../../api'
+import { getFlightsList, delCategory } from '../../api'
 import { ElMessageBox, ElMessage } from 'element-plus'
-import CategoryEdit from '../../components/CategoryEdit.vue'
+import CategoryEdit from '../../components/CategoryEdit2.vue'
 
 const tableData = ref([])
 const dialogVisible = ref(false)
@@ -70,30 +70,35 @@ onMounted(() => {
 
 // 查询分类列表
 const loadCategoryList = async () => {
-  const data = await getFligthsList()
-  tableData.value = convertToTree(data)
-}
+  const data = await getFlightsList().then(response => {
+        this.tableData = response.data; // 假设后端返回的数据在 response.data 中
+      })
+      .catch(error => {
+        console.error('Error fetching flight data:', error);
+      });
+  }
 
-// 将一维数组转换成树形结构的方法
-const convertToTree = data => {
-  const treeData = []
-  const map = {}
-  // 遍历一维数组数据，建立节点映射表
-  for (const item of data) {
-    map[item.id] = { ...item, children: [] }
-  }
-  // 遍历映射表，将节点添加到父节点的children中
-  for (const item of data) {
-    const node = map[item.id]
-    if (item.pid === 0) {
-      treeData.push(node)
-    } else {
-      const parent = map[item.pid]
-      parent.children.push(node)
-    }
-  }
-  return treeData
-}
+  tableData.value = convertToTree(data).data
+// // 将一维数组转换成树形结构的方法
+// const convertToTree = data => {
+//   const treeData = []
+//   const map = {}
+//   // 遍历一维数组数据，建立节点映射表
+//   for (const item of data) {
+//     map[item.id] = { ...item, children: [] }
+//   }
+//   // 遍历映射表，将节点添加到父节点的children中
+//   for (const item of data) {
+//     const node = map[item.id]
+//     if (item.pid === 0) {
+//       treeData.push(node)
+//     } else {
+//       const parent = map[item.pid]
+//       parent.children.push(node)
+//     }
+//   }
+//   return treeData
+// }
 
 // 新增分类
 const addRow = () => {
