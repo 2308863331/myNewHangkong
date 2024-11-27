@@ -1,10 +1,10 @@
 <template>
   <div>
-    <!-- 新增商品按钮 -->
-    <el-button type="primary" style="margin-bottom: 10px;" @click="addRow">新增商品</el-button>
+    <!-- 新增航班按钮 -->
+    <el-button type="primary" style="margin-bottom: 10px;" @click="addRow">新增航班</el-button>
 
-    <!-- 新增或修改商品的弹出框 -->
-    <el-dialog v-model="dialogVisible" :title="id ? '修改商品' : '新增商品'" :before-close="handleBeforeClose">
+    <!-- 新增或修改航班的弹出框 -->
+    <el-dialog v-model="dialogVisible" :title="id ? '修改商品' : '新增航班'" :before-close="handleBeforeClose">
       <GoodsEdit ref="goodsForm" :id="id" @success="editSuccess" />
     </el-dialog>
 
@@ -48,7 +48,7 @@ import { ElMessageBox } from 'element-plus' // 导入 Element Plus 的消息框�
 // 定义响应式变量
 const goodsList = ref([]) // 商品列表
 const page = ref(1) // 当前页码
-const pagesize = ref(2) // 每页显示的商品数量
+const pagesize = ref(10) // 每页显示的商品数量
 const total = ref(0) // 总记录数
 const id = ref() // 当前操作的商品 ID
 const dialogVisible = ref(false) // 控制对话框的显示与隐藏
@@ -91,7 +91,7 @@ const removeTages = str => {
   return str.replace(/<[^>]+>/g, '') // 使用正则表达式移除所有 HTML 标签
 }
 
-// 新增商品
+// 新增航班
 const addRow = () => {
   if (goodsForm.value) {
     goodsForm.value.resetForm(0) // 重置表单，0 表示新增
