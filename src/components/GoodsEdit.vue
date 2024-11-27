@@ -77,6 +77,8 @@ import { getFlightsList, uploadPictureURL, getGoods, addGoods, editGoods, delGoo
 import useToken from '../stores/token'
 import { ElMessageBox } from 'element-plus' // 导入 Element Plus 的消息框组件
 
+const emit = defineEmits(['success'])
+
 const form = reactive({
   id: null,
   flightNumber: '',
@@ -132,14 +134,16 @@ const addSubmit = async () => {
   if (await addGoods(data)) {
     resetForm()
     loadFlights()
+    emit('success')
   }
 }
 
-// 修改航班
+// 修改航班  
 const editSubmit = async () => {
   if (await editGoods(form)) {
     resetForm()
     loadFlights()
+    emit('success')
   }
 }
 
@@ -161,6 +165,7 @@ const delRow = async (row) => {
 
     if (response) { // 确保 response 和 response.data 存在且 code 为 1 表示成功
       loadFlights();
+      emit('success')
     } else {
       console.error('Failed to delete flight:');
     }
