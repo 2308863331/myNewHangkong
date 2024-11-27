@@ -14,7 +14,7 @@
       <el-table-column fixed="right" label="操作" width="200">
         <template #default="{ row }">
           <el-button type="warning" @click="editRow(row)">编辑</el-button>
-          <el-button type="danger" @click="delRow(row)">删除</el-button>
+          <el-button type="danger" @click="delRow(row)">删除</el-button> <!-- 传递 row 参数 -->
         </template>
       </el-table-column>
     </el-table>
@@ -73,16 +73,9 @@
 
 <script setup>
 import { reactive, ref, onMounted } from 'vue'
-import { getFlightsList, uploadPictureURL, getGoods, addGoods, editGoods } from '../api'
+import { getFlightsList, uploadPictureURL, getGoods, addGoods, editGoods, delGoods } from '../api'
 import useToken from '../stores/token'
-
-const props = defineProps({
-  id: {
-    type: Number
-  }
-})
-
-const emit = defineEmits(['success'])
+import { ElMessageBox } from 'element-plus' // 导入 Element Plus 的消息框组件
 
 const form = reactive({
   id: null,
@@ -137,7 +130,6 @@ const addSubmit = async () => {
     status: form.status
   }
   if (await addGoods(data)) {
-    emit('success')
     resetForm()
     loadFlights()
   }
@@ -146,9 +138,37 @@ const addSubmit = async () => {
 // 修改航班
 const editSubmit = async () => {
   if (await editGoods(form)) {
-    emit('success')
     resetForm()
     loadFlights()
+  }
+}
+
+const delRow = async (row) => {
+  try {
+    // 显示确认对话框
+    await ElMessageBox.confirm(
+      '您确定要删除此航班吗？',
+      '提示',
+      {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }
+    );
+
+    // 用户点击了“确定”，执行删除操作
+    const response = await delGoods({ id: row.id });
+
+    if (response) { // 确保 response 和 response.data 存在且 code 为 1 表示成功
+      loadFlights();
+    } else {
+      console.error('Failed to delete flight:');
+    }
+  } catch (error) {
+    // 用户点击了“取消”或删除失败时处理错误
+    if (error !== 'cancel') {
+      console.error('Failed to delete flight:', error);
+    }
   }
 }
 
@@ -167,3 +187,6 @@ const btnCancel = () => {
   width: 91%;
 }
 </style>
+
+
+

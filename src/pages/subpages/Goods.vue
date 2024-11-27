@@ -104,24 +104,54 @@ const addRow = () => {
 const editRow = row => {
   if (goodsForm.value) {
     goodsForm.value.resetForm(row.id) // 重置表单，传入商品 ID 表示编辑
+    
   }
   id.value = row.id // 设置 ID 为当前商品的 ID
   dialogVisible.value = true // 显示对话框
 }
 
-// 删除商品
-const delRow = row => {
-  ElMessageBox.confirm('确定要删除此商品吗？', {
-    closeOnClickModal: false,
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
-  }).then(async () => {
-    if (await delGoods({ id: row.id })) { // 发送请求删除商品
-      loadGoodsList() // 重新加载商品列表
-    }
-  }).catch(() => {}) // 用户取消删除操作
-}
+// // 删除商品
+// const delRow = row => {
+//   ElMessageBox.confirm('确定要删除此航班信息吗？', {
+//     closeOnClickModal: false,
+//     confirmButtonText: '确定',
+//     cancelButtonText: '取消',
+//   }).then(async () => {
+//     if (await delGoods({ id: row.id })) { // 发送请求删除商品
+//       loadGoodsList() // 重新加载商品列表
+//     }
+//   }).catch(() => {}) // 用户取消删除操作
+// }
+// 删除航班
 
+const delRow = async (row) => {
+  try {
+    // 显示确认对话框
+    await ElMessageBox.confirm(
+      '您确定要删除此航班吗？',
+      '提示',
+      {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }
+    );
+
+    // 用户点击了“确定”，执行删除操作
+    const response = await delGoods({ id: row.id });
+
+    if (response) { // 确保 response 和 response.data 存在且 code 为 1 表示成功
+      loadGoodsList();
+    } else {
+      console.error('Failed to delete flight:');
+    }
+  } catch (error) {
+    // 用户点击了“取消”或删除失败时处理错误
+    if (error !== 'cancel') {
+      console.error('Failed to delete flight:', error);
+    }
+  }
+}
 // 换页
 const handleCurrentChange = value => {
   page.value = value // 更新当前页码
