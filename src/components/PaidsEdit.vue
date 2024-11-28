@@ -15,8 +15,8 @@
             <el-button type="warning" @click="editRow(row)">编辑</el-button>
             <el-button type="danger" @click="delRow(row)">删除</el-button>
           </template>
-        </el-table-column>
-      </el-table>
+          </el-table-column>
+        </el-table>
 
     <!-- 表单部分 -->
     <el-form ref="formRef" :model="form" label-width="120px">
@@ -44,10 +44,10 @@
       <!-- 支付状态 -->
       <el-form-item prop="status" label="支付状态">
         <el-select v-model="form.status" placeholder="请选择支付状态">
-          <el-option label="待支付" value="pending" />
-          <el-option label="已支付" value="paid" />
-          <el-option label="已退款" value="refunded" />
-          <el-option label="失败" value="failed" />
+          <el-option label="待支付" value="待支付" />
+          <el-option label="已支付" value="已支付" />
+          <el-option label="已退款" value="已退款" />
+          <el-option label="失败" value="失败" />
         </el-select>
       </el-form-item>
       <!-- 操作按钮 -->
@@ -64,16 +64,11 @@
 import { reactive, ref, onMounted, watch } from 'vue'
 import { getPayments, addPayment, editPayment, getPaymentsList, delPayment } from '../api'
 import useToken from '../stores/token'
+import { ElMessageBox } from 'element-plus' // 导入 Element Plus 的消息框组件
+const paymentsList = ref([])
 
-const props = defineProps({
-  id: {
-    type: Number,
-    default: 0
-  }
-})
 
 const emit = defineEmits(['success'])
-
 const form = reactive({
   id: null,
   orderId: '',
@@ -88,6 +83,7 @@ const { token } = useToken()
 
 
 const resetForm = id => {
+
   form.id = id || null
   form.orderId = ''
   form.amount = 0.00
@@ -98,24 +94,13 @@ const resetForm = id => {
 
 defineExpose({ resetForm })
 
-const emit = defineEmits(['success'])
 
-const form = reactive({
-  id: null,
-  flightNumber: '',
-  departureAirport: '',
-  arrivalAirport: '',
-  departureTime: '',
-  arrivalTime: '',
-  status: ''
-})
 
 onMounted(() => {
-  loadFlights()
+  loadPayment()
 })
 
 
-defineExpose({ resetForm })
 
 const loadPayment = async () => {
   const data = await getPayments()
