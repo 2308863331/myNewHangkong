@@ -17,17 +17,24 @@ const router = createRouter({
           meta: { title: '首页' },
         },
         {
+          path: '/orders',
+          name: 'orders',
+          component: () => import('../pages/subpages/Order.vue'),
+          meta: { title: '订单管理' },
+        },
+        {
           path: '/flights',
           name: 'flights',
-          component: () => import('../pages/subpages/Order.vue'),
+          component: () => import('../pages/subpages/Flight.vue'),
           meta: { title: '航班管理' },
         },
         {
-          path: '/goods',
-          name: 'goods',
-          component: () => import('../pages/subpages/Flight.vue'),
-          meta: { title: '商品管理' },
+          path: '/paids',
+          name: 'paids',
+          component: () => import('../pages/subpages/Paid.vue'),
+          meta: { title: '支付管理' },
         },
+        
         {
           path: '/setting',
           name: 'setting',

@@ -12,7 +12,7 @@
           </el-menu-item>
         </router-link>
         <!-- 分类管理 -->
-        <router-link :to="{ name: 'flights' }">
+        <router-link :to="{ name: 'orders' }">
           <el-menu-item index="2">
             <el-icon>
               <List />
@@ -21,7 +21,7 @@
           </el-menu-item>
         </router-link>
         <!-- 商品管理 -->
-        <router-link :to="{ name: 'goods' }">
+        <router-link :to="{ name: 'flights' }">
           <el-menu-item index="3">
             <el-icon>
               <List />
@@ -29,9 +29,18 @@
             <span>航班管理</span>
           </el-menu-item>
         </router-link>
+         <!-- 支付记录管理 -->
+         <router-link :to="{ name: 'paids' }">
+          <el-menu-item index="4">
+            <el-icon>
+              <List />
+            </el-icon>
+            <span>支付记录管理</span>
+          </el-menu-item>
+        </router-link>
         <!-- 个人中心 -->
         <router-link :to="{ name: 'setting' }">
-          <el-menu-item index="4">
+          <el-menu-item index="5">
             <el-icon>
               <Setting />
             </el-icon>
@@ -49,9 +58,10 @@ import { ref } from 'vue'
 import router from '../router'
 const menuIndex = {
   'index': '1',
-  'flights/list': '2',
-  'goods': '3',
-  'setting': '4'
+  'orders/list': '2',
+  'flights': '3',
+  'paids':'4',
+  'setting': '5'
 }
 const active = ref(menuIndex[router.currentRoute.value.name] || '0')
 </script>

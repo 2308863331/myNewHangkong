@@ -32,7 +32,28 @@ export function uploadPictureURL() {
 }
 
 
+//支付记录
+//
+export function getPaymentsList(params) {
+  return request.get('/admin/paids/page', { params })
+}
+//订单编辑框
+export function getPayments(params) {
+  return request.get('/admin/paids/list', { params })
+}
+//订单添加
+export function addPayment(data) {
+  return request.post('/admin/paids/add',data)
+}
+//订单修改
+export function editPayment(data) {
+  return request.post('/admin/paids/edit',data)
+}
 
+//订单删除
+export function delPayment(data) {
+  return request.post('/admin/paids/del',data)
+}
 
 
 
