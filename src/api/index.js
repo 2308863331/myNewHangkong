@@ -31,6 +31,25 @@ export function getFlightsList() {
   return request.get('/admin/flights/list')
 }
 
+export function getOrdersList() {
+  return request.get('/admin/oders/list')
+}
+export function getOrder() {
+  return request.get('/admin/oders')
+}
+export function addOrder() {
+  return request.get('/admin/oders/add')
+}
+export function editOrder() {
+  return request.get('/admin/oders/edit')
+}
+
+
+export function delOrder() {
+  return request.get('/admin/oders/del')
+}
+getOrdersList
+
 // 查询单个分类接口
 export function getCategory(params) {
   return request.get('/admin/category', { params })

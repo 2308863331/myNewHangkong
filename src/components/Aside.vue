@@ -17,7 +17,7 @@
             <el-icon>
               <List />
             </el-icon>
-            <span>分类管理</span>
+            <span>订单管理</span>
           </el-menu-item>
         </router-link>
         <!-- 商品管理 -->
@@ -26,7 +26,7 @@
             <el-icon>
               <List />
             </el-icon>
-            <span>商品管理</span>
+            <span>航班管理</span>
           </el-menu-item>
         </router-link>
         <!-- 个人中心 -->

@@ -1,42 +1,28 @@
 <template>
   <el-form ref="formRef" :model="form" label-width="120px">
-    <!-- 分类名称  -->
-    <el-form-item prop="name" label="航班名称" style="width: 92%">
-      <el-input v-model="form.name" placeholder="请填写分类名称" />
+    <!-- 订单号 -->
+    <el-form-item prop="order_number" label="订单号" style="width: 92%">
+      <el-input v-model="form.order_number" placeholder="请输入订单号" />
     </el-form-item>
-    <!-- 是否为二级分类 -->
-    <el-form-item label="二级分类">
-      <el-radio-group v-model="showMore">
-        <el-radio :label="true" :disabled="form.id !== 0 && !form.pid">是</el-radio>
-        <el-radio :label="false" :disabled="form.id !== 0 && !form.pid">否</el-radio>
-      </el-radio-group>
+    <!-- 用户ID -->
+    <el-form-item prop="user_id" label="用户ID">
+      <el-input v-model="form.user_id" placeholder="请输入用户ID" />
     </el-form-item>
-    <!-- 上级分类 -->
-    <el-form-item v-show="showMore" label="上级分类" prop="pid">
-      <el-select v-model="form.pid" placeholder="请选择上级分类名称" >
-        <el-option v-for="item in flightsList" :key="item.id" :label="item.name" :value="item.id" />
+    <!-- 航班ID -->
+    <el-form-item prop="flight_id" label="航班ID">
+      <el-input v-model="form.flight_id" placeholder="请输入航班ID" />
+    </el-form-item>
+    <!-- 订单总价 -->
+    <el-form-item prop="total_price" label="订单总价">
+      <el-input-number v-model="form.total_price" :precision="2" :step="0.01" placeholder="请输入订单总价" />
+    </el-form-item>
+    <!-- 订单状态 -->
+    <el-form-item prop="status" label="订单状态">
+      <el-select v-model="form.status" placeholder="请选择订单状态">
+        <el-option label="未支付" value="unpaid" />
+        <el-option label="已支付" value="paid" />
+        <el-option label="已完成" value="completed" />
       </el-select>
-    </el-form-item>
-    <!-- 分类图片 -->
-    <el-form-item label="分类图片" v-show="showMore">
-      <el-upload
-        ref="uploadRef"
-        class="upload-demo"
-        v-model:file-list="fileList"
-        :action="uploadPictureURL()"
-        :headers="{ jwt: token }"
-        :data="{ type: 'flights_picture' }"
-        :limit="1"
-        :on-exceed="handleExceed"
-        :on-success="uploadSuccess"
-      >
-        <template #trigger>
-          <el-button type="primary">请选择图片</el-button>
-        </template>
-        <template #tip>
-          <div class="el-upload__tip">图片文件大小不超过500KB</div>
-        </template>
-      </el-upload>
     </el-form-item>
     <!-- 操作按钮 -->
     <el-form-item>
@@ -49,12 +35,13 @@
 
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
-import { getCategory, getFlightsList, uploadPictureURL, addCategory, editCategory } from '../api'
+import { getOrder, getFlightsList, addOrder, editOrder } from '../api'
 import useToken from '../stores/token'
 
 const props = defineProps({
   id: {
-    type: Number
+    type: Number,
+    default: 0
   }
 })
 
@@ -62,36 +49,28 @@ const emit = defineEmits(['success'])
 
 const form = reactive({
   id: props.id,
-  name: '',
-  pid: '',
-  picture: ''
+  order_number: '',
+  user_id: '',
+  flight_id: '',
+  total_price: 0.00,
+  status: 'unpaid',
+  created_at: '',
+  updated_at: ''
 })
 
 const formRef = ref()
 const flightsList = ref([])
-const showMore = ref(false)
-const fileList = ref([])
-const uploadRef = ref()
 const { token } = useToken()
 
 onMounted(() => {
-  loadCategory()
+  loadOrder()
 })
 
-const loadCategory = async() => {
+const loadOrder = async () => {
   if (form.id) {
-    const data = await getCategory({ id: form.id })
-    if (data.picture !== '') {
-      const fileName = data.picture.substring(data.picture.lastIndexOf('/') + 1)
-      if (fileName) {
-        fileList.value = [{ name: fileName, url: data.picture }]
-      }
-    }
+    const data = await getOrder({ id: form.id })
     Object.assign(form, data)
   }
-  const list = await getFlightsList()
-  flightsList.value = list.filter(item => item.pid == 0)
-  showMore.value = form.pid != 0
 }
 
 const resetForm = id => {
@@ -104,18 +83,20 @@ defineExpose({ resetForm })
 // 新增操作
 const addSubmit = async () => {
   const data = {
-    name: form.name,
-    picture: form.picture,
-    pid: form.pid
+    order_number: form.order_number,
+    user_id: form.user_id,
+    flight_id: form.flight_id,
+    total_price: form.total_price,
+    status: form.status
   }
-  if (await addCategory(data)) {
+  if (await addOrder(data)) {
     emit('success')
   }
 }
 
 // 修改操作
 const editSubmit = async () => {
-  if (await editCategory(form)) {
+  if (await editOrder(form)) {
     emit('success')
   }
 }
@@ -123,41 +104,15 @@ const editSubmit = async () => {
 // 重置表单
 const btnCancel = () => {
   formRef.value.resetFields()
-  form.picture = ''
-  uploadRef.value.clearFiles()
-  loadCategory()
-}
-
-// 文件超出个数限制时替换已有图片
-const handleExceed = files => {
-  uploadRef.value.clearFiles()
-  uploadRef.value.handleStart(files[0])
-  uploadRef.value.submit()
-}
-
-// 上传成功
-const uploadSuccess = response => {
-  const { errno, errmsg, data } = response
-  if (errno !== 0) {
-    notification({
-      message: errmsg,
-      type: 'error'
-    })
-  } else {
-    if (errmsg !== '') {
-      notification({
-        message: errmsg,
-        type: 'success'
-      })
-    }
-    form.picture = data.savepath
-  }
+  loadOrder()
 }
 </script>
 
 <style scoped>
-.upload-demo {
-  text-align: left;
+.el-form-item {
   width: 91%;
 }
 </style>
+
+
+
