@@ -38,9 +38,18 @@
             <span>支付记录管理</span>
           </el-menu-item>
         </router-link>
+        <!-- 机票座位管理 -->
+        <router-link :to="{ name: 'seats' }">
+          <el-menu-item index="5">
+            <el-icon>
+              <List />
+            </el-icon>
+            <span>机票座位管理</span>
+          </el-menu-item>
+        </router-link>
         <!-- 个人中心 -->
         <router-link :to="{ name: 'setting' }">
-          <el-menu-item index="5">
+          <el-menu-item index="6">
             <el-icon>
               <Setting />
             </el-icon>
@@ -61,7 +70,9 @@ const menuIndex = {
   'orders/list': '2',
   'flights': '3',
   'paids':'4',
-  'setting': '5'
+  'seats': '5',
+  'setting': '6'
+
 }
 const active = ref(menuIndex[router.currentRoute.value.name] || '0')
 </script>

@@ -32,25 +32,49 @@ export function uploadPictureURL() {
 }
 
 
+
+//机票座位
+export function getSeatsList(params) {
+  return request.get('/admin/seats/page', { params })
+}
+//机票座位编辑框
+export function getSeats(params) {
+  return request.get('/admin/seats/list', { params })
+}
+//机票座位添加
+export function addSeat(data) {
+  return request.post('/admin/seats/add',data)
+}
+//机票座位修改
+export function editSeat(data) {
+  return request.post('/admin/seats/edit',data)
+}
+//机票座位删除
+export function delSeat(data) {
+  return request.post('/admin/seats/del',data)
+}
+
+
+
+
 //支付记录
-//
 export function getPaymentsList(params) {
   return request.get('/admin/paids/page', { params })
 }
-//订单编辑框
+//支付记录编辑框
 export function getPayments(params) {
   return request.get('/admin/paids/list', { params })
 }
-//订单添加
+//支付记录添加
 export function addPayment(data) {
   return request.post('/admin/paids/add',data)
 }
-//订单修改
+//支付记录修改
 export function editPayment(data) {
   return request.post('/admin/paids/edit',data)
 }
 
-//订单删除
+//支付记录删除
 export function delPayment(data) {
   return request.post('/admin/paids/del',data)
 }

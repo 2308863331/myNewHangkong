@@ -33,6 +33,12 @@ const router = createRouter({
           name: 'paids',
           component: () => import('../pages/subpages/Paid.vue'),
           meta: { title: '支付管理' },
+        }, 
+        {
+          path: '/seats',
+          name: 'seats',
+          component: () => import('../pages/subpages/Seat.vue'),
+          meta: { title: '机票座位管理' },
         },
         
         {
