@@ -11,6 +11,15 @@
             <span>首页</span>
           </el-menu-item>
         </router-link>
+        <!-- 首页 -->
+        <router-link :to="{ name: 'user' }">
+          <el-menu-item index="2">
+            <el-icon>
+              <HomeFilled />
+            </el-icon>
+            <span>用户管理</span>
+          </el-menu-item>
+        </router-link>
         <!-- 分类管理 -->
         <router-link :to="{ name: 'orders' }">
           <el-menu-item index="2">
@@ -67,11 +76,12 @@ import { ref } from 'vue'
 import router from '../router'
 const menuIndex = {
   'index': '1',
-  'orders/list': '2',
-  'flights': '3',
-  'paids':'4',
-  'seats': '5',
-  'setting': '6'
+  'user': '2',
+  'orders/list': '3',
+  'flights': '4',
+  'paids':'5',
+  'seats': '6',
+  'setting': '7'
 
 }
 const active = ref(menuIndex[router.currentRoute.value.name] || '0')

@@ -6,4 +6,5 @@
 
 <script setup>
 import zhCn from 'element-plus/lib/locale/lang/zh-cn'
+
 </script>
