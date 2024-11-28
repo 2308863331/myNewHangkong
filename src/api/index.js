@@ -1,6 +1,11 @@
 import request from '../utils/request'
 import config from '../config'
 
+
+
+
+
+//用户管理
 // 登录接口
 export function login(data) {
   return request.post('/admin/login', data)
@@ -26,6 +31,13 @@ export function uploadPictureURL() {
   return config.baseURL + '/admin/upload/picture'
 }
 
+
+
+
+
+
+//TODO 好奇怪 我明明没有实现查单个
+//订单管理
 //订单首页列表
 export function getOrdersList(params) {
   return request.get('/admin/orders/page', { params })
@@ -43,7 +55,7 @@ export function editOrder(data) {
   return request.post('/admin/orders/edit',data)
 }
 
-
+//订单删除
 export function delOrder(data) {
   return request.post('/admin/orders/del',data)
 }
@@ -51,25 +63,11 @@ export function delOrder(data) {
 
 
 
-// 新增分类接口
-export function addCategory(data) {
-  return request.post('/admin/category/add', data)
-}
-
-// 修改分类接口
-export function editCategory(data) {
-  return request.post('/admin/category/save', data)
-}
-
-// 删除分类接口
-export function delCategory(data) {
-  return request.post('/admin/category/del', data)
-}
 
 
 
 
-
+//航班管理
 // 航班首页列表接口
 export function getGoodsList(params) {
   return request.get('/admin/index/list', { params })

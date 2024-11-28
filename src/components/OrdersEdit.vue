@@ -128,9 +128,9 @@ const addSubmit = async () => {
 
 // 修改订单  
 const editSubmit = async () => {
-  if (await editCategory(form)) {
+  if (await editOrder(form)) {
     resetForm()
-    loadFlights()
+    loadOrders()
     emit('success')
   }
 }
@@ -151,7 +151,7 @@ const delRow = async (row) => {
     // 用户点击了“确定”，执行删除操作
     const response = await delOrder({ id: row.id });
 
-    if (response && response.data) { // 确保 response 和 response.data 存在且 code 为 1 表示成功
+    if (response) { // 确保 response 和 response.data 存在且 code 为 1 表示成功
       loadOrders();
       emit('success')
     } else {
