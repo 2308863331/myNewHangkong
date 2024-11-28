@@ -25,6 +25,9 @@ import Aside from '../components/Aside.vue'
 
 <style lang="scss" scoped>
 .el-container {
+  background-color: #f9eef2;
+
+
   height: 100%;
   .el-header {
     background: -webkit-gradient(linear, left top, right top, from(#1493fa), to(#01c6fa));
@@ -36,11 +39,14 @@ import Aside from '../components/Aside.vue'
     width: 200px;
     height: 100%;
     color: #333;
-    background: white
+    // background: white
+
   }
   .el-main {
     height: 100vh;
-    background-color: #e9eef3;
+    // background-color: #e9eef3;
+    background-color: #f9eef2;
+
     color: #333;
   }
 }

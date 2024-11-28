@@ -1,17 +1,33 @@
-html {
-  height: 100%;
-}
 body {
+  font-family: 'Arial', sans-serif;
+  font-size: 16px; /* 默认字体大小 */
+  line-height: 1.6;
+  /* color: #edd4dc; */
   margin: 0;
-  height: 100%;
-  overflow: hidden;
+  padding: 0;
 }
-#app {
-  height: 100%;
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  margin: 1rem 0;
 }
-a {
-  text-decoration: none;
+
+h1 {
+  font-size: 2.5rem; /* 大标题 */
 }
-.tox-tinymce-aux {
-  z-index: 5000!important;
+
+h2 {
+  font-size: 2rem; /* 次级标题 */
+}
+
+p {
+  font-size: 1.125rem; /* 段落文本 */
+  margin: 0.5rem 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  /* color: #edd4dc; */
 }
