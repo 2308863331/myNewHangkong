@@ -8,14 +8,16 @@
       <OrderEdit ref="orderForm" :id="id" @success="editSuccess" />
     </el-dialog>
 
-    <!-- 订单列表 -->
-    <el-table :data="ordersList" style="width: 100%; margin-bottom: 20px">
+   <!-- 订单列表 -->
+   <el-table :data="ordersList" style="width: 100%; margin-bottom: 20px">
       <el-table-column prop="id" label="订单ID" />
-      <el-table-column prop="order_number" label="订单号" sortable />
-      <el-table-column prop="total_price" label="订单总价" sortable />
+      <el-table-column prop="orderNumber" label="订单号" sortable />
+      <el-table-column prop="userId" label="用户ID" sortable />
+      <el-table-column prop="flightId" label="航班ID" />
+      <el-table-column prop="totalAmount" label="订单总价" />
       <el-table-column prop="status" label="订单状态" sortable />
-      <el-table-column prop="created_at" label="创建时间" />
-      <el-table-column prop="updated_at" label="更新时间" />
+      <el-table-column prop="createdTime" label="创建时间" />
+      <el-table-column prop="updatedTime" label="更新时间" />
       <el-table-column fixed="right" label="操作" width="200">
         <template #default="{ row }">
           <el-button type="warning" @click="editRow(row)">编辑</el-button>
@@ -39,7 +41,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { getOrdersList, delOrder } from '../../api' // 导入 API 函数
-import OrderEdit from '../../components/CategoryEdit.vue' // 导入 OrderEdit 组件
+import OrderEdit from '../../components/OrdersEdit.vue' // 导入 OrderEdit 组件
 import { ElMessageBox } from 'element-plus' // 导入 Element Plus 的消息框组件
 
 // 定义响应式变量

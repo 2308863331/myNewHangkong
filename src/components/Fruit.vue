@@ -70,3 +70,12 @@ const active = ref(menuIndex[router.currentRoute.value.name] || '0')
   }
 }
 </style>
+
+
+const data = {
+  orderNumber: form.order_number,
+  userId: form.user_id,
+  flightId: form.flight_id,
+  totalAmount: form.total_amount,
+  status: form.status
+}

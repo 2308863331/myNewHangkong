@@ -26,34 +26,30 @@ export function uploadPictureURL() {
   return config.baseURL + '/admin/upload/picture'
 }
 
-// 分类列表接口
-export function getFlightsList() {
-  return request.get('/admin/flights/list')
+//订单首页列表
+export function getOrdersList(params) {
+  return request.get('/admin/orders/page', { params })
+}
+//订单编辑框
+export function getOrders(params) {
+  return request.get('/admin/orders/list', { params })
+}
+//订单添加
+export function addOrder(data) {
+  return request.post('/admin/orders/add',data)
+}
+//订单修改
+export function editOrder(data) {
+  return request.post('/admin/orders/edit',data)
 }
 
-export function getOrdersList() {
-  return request.get('/admin/oders/list')
-}
-export function getOrder() {
-  return request.get('/admin/oders')
-}
-export function addOrder() {
-  return request.get('/admin/oders/add')
-}
-export function editOrder() {
-  return request.get('/admin/oders/edit')
+
+export function delOrder(data) {
+  return request.post('/admin/orders/del',data)
 }
 
 
-export function delOrder() {
-  return request.get('/admin/oders/del')
-}
-getOrdersList
 
-// 查询单个分类接口
-export function getCategory(params) {
-  return request.get('/admin/category', { params })
-}
 
 // 新增分类接口
 export function addCategory(data) {
@@ -70,27 +66,36 @@ export function delCategory(data) {
   return request.post('/admin/category/del', data)
 }
 
-// 商品列表接口
+
+
+
+
+// 航班首页列表接口
 export function getGoodsList(params) {
-  return request.get('/admin/category/list', { params })
+  return request.get('/admin/index/list', { params })
+}
+// 航班编辑框列表接口
+export function getFlightsList(params) {
+  return request.get('/admin/flights/list', { params })
 }
 
-// 查询单个商品接口
+
+// 查询单个航班接口
 export function getGoods(params) {
-  return request.get('/admin/goods', { params })
+  return request.get('/admin/flight', { params })
 }
 
-// 新增商品接口
+// 新增航班接口
 export function addGoods(data) {
-  return request.post('/admin/goods/add', data)
+  return request.post('/admin/flight/add', data)
 }
 
-// 修改商品接口
+// 修改航班接口
 export function editGoods(data) {
-  return request.post('/admin/goods/save', data)
+  return request.post('/admin/flight/save', data)
 }
 
-// 删除商品接口
+// 删除航班接口
 export function delGoods(data) {
-  return request.post('/admin/goods/del', data)
+  return request.post('/admin/flight/del', data)
 }

@@ -19,13 +19,13 @@ const router = createRouter({
         {
           path: '/flights',
           name: 'flights',
-          component: () => import('../pages/subpages/Category.vue'),
+          component: () => import('../pages/subpages/Order.vue'),
           meta: { title: '航班管理' },
         },
         {
           path: '/goods',
           name: 'goods',
-          component: () => import('../pages/subpages/Goods.vue'),
+          component: () => import('../pages/subpages/Flight.vue'),
           meta: { title: '商品管理' },
         },
         {

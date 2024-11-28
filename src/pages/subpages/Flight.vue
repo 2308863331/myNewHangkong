@@ -42,7 +42,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { getGoodsList, delGoods } from '../../api' // 导入 API 函数
-import GoodsEdit from '../../components/GoodsEdit.vue' // 导入 GoodsEdit 组件
+import GoodsEdit from '../../components/FlightsEdit.vue' // 导入 GoodsEdit 组件
 import { ElMessageBox } from 'element-plus' // 导入 Element Plus 的消息框组件
 
 // 定义响应式变量
