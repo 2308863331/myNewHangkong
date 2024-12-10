@@ -56,6 +56,33 @@
             <span>机票座位管理</span>
           </el-menu-item>
         </router-link>
+        <!-- 评论管理 -->
+        <router-link :to="{ name: 'reviews' }">
+          <el-menu-item index="8">
+            <el-icon>
+              <List />
+            </el-icon>
+            <span>评论管理</span>
+          </el-menu-item>
+        </router-link>
+        <!-- 优惠券管理 -->
+        <router-link :to="{ name: 'coupons' }">
+          <el-menu-item index="9">
+            <el-icon>
+              <List />
+            </el-icon>
+            <span>优惠券管理</span>
+          </el-menu-item>
+        </router-link>
+        <!-- 退款管理 -->
+        <router-link :to="{ name: 'refunds' }">
+          <el-menu-item index="10">
+            <el-icon>
+              <List />
+            </el-icon>
+            <span>退款管理</span>
+          </el-menu-item>
+        </router-link>
         <!-- 个人中心 -->
         <router-link :to="{ name: 'setting' }">
           <el-menu-item index="6">
@@ -81,7 +108,10 @@ const menuIndex = {
   'flights': '4',
   'paids':'5',
   'seats': '6',
-  'setting': '7'
+  'reviews':'7',
+  'coupons':'8',
+  'refunds':'9',
+  'setting': '10'
 
 }
 const active = ref(menuIndex[router.currentRoute.value.name] || '0')

@@ -46,6 +46,27 @@ const router = createRouter({
           component: () => import('../pages/subpages/Seat.vue'),
           meta: { title: '机票座位管理' },
         },
+        // 新增评论管理路由
+        {
+          path: '/reviews',
+          name: 'reviews',
+          component: () => import('../pages/subpages/Review.vue'),
+          meta: { title: '评论管理' },
+        },
+        // 新增优惠券管理路由
+        {
+          path: '/coupons',
+          name: 'coupons',
+          component: () => import('../pages/subpages/Coupon.vue'),
+          meta: { title: '优惠券管理' },
+        },
+        // 新增退款管理路由
+        {
+          path: '/refunds',
+          name: 'refunds',
+          component: () => import('../pages/subpages/Refund.vue'),
+          meta: { title: '退款管理' },
+        },
         
         {
           path: '/setting',
@@ -53,6 +74,7 @@ const router = createRouter({
           component: () => import('../pages/subpages/Setting.vue'),
           meta: { title: '个人中心' },
         },
+        
       ],
     },
     {
