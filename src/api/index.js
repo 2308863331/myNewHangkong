@@ -5,7 +5,7 @@ import config from '../config'
 
 
 
-//用户管理
+//个人信息管理
 // 登录接口
 export function login(data) {
   return request.post('/admin/login', data)
@@ -30,6 +30,102 @@ export function changeAdminAvatar(data) {
 export function uploadPictureURL() {
   return config.baseURL + '/admin/upload/picture'
 }
+
+
+//用户管理
+//用户
+export function getUsersList(params) {
+  return request.get('/admin/users/page', { params })
+}
+//用户编辑框
+export function getUsers(params) {
+  return request.get('/admin/users/list', { params })
+}
+//用户添加
+export function addUser(data) {
+  return request.post('/admin/users/add',data)
+}
+//用户修改
+export function editUser(data) {
+  return request.post('/admin/users/edit',data)
+}
+//用户删除
+export function delUser(data) {
+  return request.post('/admin/users/del',data)
+}
+
+
+
+//退款管理
+//退款
+export function getRefundsList(params) {
+  return request.get('/admin/refunds/page', { params })
+}
+//退款编辑框
+export function getRefunds(params) {
+  return request.get('/admin/refunds/list', { params })
+}
+//退款添加
+export function addRefund(data) {
+  return request.post('/admin/refunds/add',data)
+}
+//退款修改
+export function editRefund(data) {
+  return request.post('/admin/refunds/edit',data)
+}
+//退款删除
+export function delRefund(data) {
+  return request.post('/admin/refunds/del',data)
+}
+
+
+
+//评论管理
+//优惠券
+export function getReviewsList(params) {
+  return request.get('/admin/reviews/page', { params })
+}
+//优惠券编辑框
+export function getReviews(params) {
+  return request.get('/admin/reviews/list', { params })
+}
+//优惠券添加
+export function addReview(data) {
+  return request.post('/admin/reviews/add',data)
+}
+//优惠券修改
+export function editReview(data) {
+  return request.post('/admin/reviews/edit',data)
+}
+//优惠券删除
+export function delReview(data) {
+  return request.post('/admin/reviews/del',data)
+}
+
+
+
+//优惠券管理
+//优惠券
+export function getCouponsList(params) {
+  return request.get('/admin/coupons/page', { params })
+}
+//优惠券编辑框
+export function getCoupons(params) {
+  return request.get('/admin/coupons/list', { params })
+}
+//优惠券添加
+export function addCoupon(data) {
+  return request.post('/admin/coupons/add',data)
+}
+//优惠券修改
+export function editCoupon(data) {
+  return request.post('/admin/coupons/edit',data)
+}
+//优惠券删除
+export function delCoupon(data) {
+  return request.post('/admin/coupons/del',data)
+}
+
 
 
 

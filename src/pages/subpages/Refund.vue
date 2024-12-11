@@ -39,7 +39,7 @@
   
   <script setup>
   import { ref, onMounted } from 'vue'
-  import { getRefundsList, delRefund } from '../../api/refunds'
+  import { getRefundsList, delRefund } from '../../api'
   import RefundsEdit from '../../components/RefundsEdit.vue'
   import { ElMessageBox } from 'element-plus'
   
@@ -70,13 +70,17 @@
   }
   
   const addRow = () => {
-    refundsForm.value.resetForm(0)
+    if(refundsForm.value){
+      refundsForm.value.resetForm(0)
+    }
     id.value = 0
     dialogVisible.value = true
   }
   
   const editRow = row => {
-    refundsForm.value.resetForm(row.id)
+    if(refundsForm.value){
+      refundsForm.value.resetForm(row.id)
+    }
     id.value = row.id
     dialogVisible.value = true
   }

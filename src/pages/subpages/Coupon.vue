@@ -41,7 +41,7 @@
   
   <script setup>
   import { ref, onMounted } from 'vue'
-  import { getCouponsList, delCoupon } from '../../api/coupons'
+   import { getCouponsList, delCoupon } from '../../api'
   import CouponsEdit from '../../components/CouponsEdit.vue'
   import { ElMessageBox } from 'element-plus'
   
@@ -72,13 +72,17 @@
   }
   
   const addRow = () => {
-    couponsForm.value.resetForm(0)
+    if (couponsForm.value) {
+      couponsForm.value.resetForm(0)
+}
     id.value = 0
     dialogVisible.value = true
   }
   
   const editRow = row => {
-    couponsForm.value.resetForm(row.id)
+    if (couponsForm.value) {
+      couponsForm.value.resetForm(row.id)
+    }
     id.value = row.id
     dialogVisible.value = true
   }
