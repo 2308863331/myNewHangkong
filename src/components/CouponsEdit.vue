@@ -23,16 +23,16 @@
         <el-input v-model="form.code" placeholder="请填写优惠券码" />
       </el-form-item>
       <el-form-item label="折扣金额" prop="discountAmount">
-        <el-input-number v-model="form.discount_amount" :precision="2" :step="0.1" placeholder="请填写折扣金额" />
+        <el-input-number v-model="form.discountAmount" :precision="2" :step="0.1" placeholder="请填写折扣金额" />
       </el-form-item>
       <el-form-item label="有效开始时间" prop="validFrom">
-        <el-date-picker v-model="form.valid_from" type="datetime" placeholder="选择日期时间" />
+        <el-date-picker v-model="form.validFrom" type="datetime" placeholder="选择日期时间" />
       </el-form-item>
       <el-form-item label="有效结束时间" prop="validTo">
-        <el-date-picker v-model="form.valid_to" type="datetime" placeholder="选择日期时间" />
+        <el-date-picker v-model="form.validTo" type="datetime" placeholder="选择日期时间" />
       </el-form-item>
       <el-form-item label="使用限制次数" prop="usageLimit">
-        <el-input-number v-model="form.usage_limit" :min="1" placeholder="请填写使用限制次数" />
+        <el-input-number v-model="form.usageLimit" :min="1" placeholder="请填写使用限制次数" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="editSubmit()" v-if="form.id">修改</el-button>
@@ -56,11 +56,11 @@ const resetForm = () => {
   Object.assign(form, {
     id: null,
     code: '',
-    discount_amount: 0.00,
-    valid_from: '',
-    valid_to: '',
-    usage_limit: 1,
-    used_count: 0
+    discountAmount: 0.00,
+    validFrom: '',
+    validTo: '',
+    usageLimit: 1,
+    usedCount: 0
   });
 }
 defineExpose({ resetForm })
@@ -70,11 +70,11 @@ const emit = defineEmits(['success'])
 const form = reactive({
   id: null,
   code: '',
-  discount_amount: 0.00,
-  valid_from: '',
-  valid_to: '',
-  usage_limit: 1,
-  used_count: 0
+  discountAmount: 0.00,
+  validFrom: '',
+  validTo: '',
+  usageLimit: 1,
+  usedCount: 0
 })
 
 const couponFormRef = ref()

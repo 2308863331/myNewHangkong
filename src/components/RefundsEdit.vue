@@ -21,11 +21,11 @@
     <el-form ref="refundFormRef" :model="form" label-width="120px">
       <!-- 订单ID -->
       <el-form-item label="订单ID" prop="orderId" style="width: 92%">
-        <el-input v-model="form.order_id" placeholder="请填写订单ID" />
+        <el-input v-model="form.orderId" placeholder="请填写订单ID" />
       </el-form-item>
       <!-- 退款金额 -->
       <el-form-item label="退款金额" prop="refundAmount" style="width: 92%">
-        <el-input-number v-model="form.refund_amount" :precision="2" :step="0.01" :min="0" placeholder="请填写退款金额" />
+        <el-input-number v-model="form.refundAmount" :precision="2" :step="0.01" :min="0" placeholder="请填写退款金额" />
       </el-form-item>
       <!-- 退款原因 -->
       <el-form-item label="退款原因" prop="reason" style="width: 92%">
@@ -59,8 +59,8 @@ const emit = defineEmits(['success'])
 
 const form = reactive({
   id: null,
-  order_id: '',
-  refund_amount: 0,
+  orderId: '',
+  refundAmount: 0,
   reason: '',
   status: ''
 })
@@ -77,8 +77,8 @@ onMounted(() => {
 const resetForm = () => {
   refundFormRef.value.resetFields()
   form.id = null
-  form.order_id = ''
-  form.refund_amount = 0
+  form.orderId = ''
+  form.refundAmount = 0
   form.reason = ''
   form.status = ''
 }
@@ -98,8 +98,8 @@ const editRow = (row) => {
 // 新增退款
 const addSubmit = async () => {
   const data = {
-    order_id: form.order_id,
-    refund_amount: form.refund_amount,
+    orderId: form.orderId,
+    refundAmount: form.refundAmount,
     reason: form.reason,
     status: form.status
   }

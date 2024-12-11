@@ -16,6 +16,7 @@
         <el-table-column prop="address" label="地址" />
         <el-table-column fixed="right" label="操作" width="200">
           <template #default="{ row }">
+            
             <el-button type="warning" @click="editRow(row)">编辑</el-button>
             <el-button type="danger" @click="delRow(row)">删除</el-button>
           </template>
@@ -37,8 +38,8 @@
           <el-input v-model="form.address" placeholder="请填写地址" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="editSubmit()" v-if="form.id">修改</el-button>
-          <el-button type="primary" @click="addSubmit()" v-else>新增</el-button>
+          <el-button type="primary" @click="editSubmit()" >修改</el-button>
+          <el-button type="primary" @click="addSubmit()" >新增</el-button>
           <el-button @click="btnCancel">重置</el-button>
         </el-form-item>
       </el-form>
@@ -124,7 +125,7 @@
         }
       )
   
-      const response = await delUser({ id: row.id })
+      const response = await delUser({ userId: row.userId })
   
       if (response) {
         loadUsers()

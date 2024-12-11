@@ -1,9 +1,9 @@
 <template>
     <!-- 新增评论按钮 -->
-    <el-button type="primary" style="margin-bottom: 10px;" @click="addRow">新增评论</el-button>
+    <el-button type="primary" style="margin-bottom: 10px;" @click="addRow">新增用户</el-button>
 
     <!-- 新增或修改评论的弹出框 -->
-    <el-dialog v-model="dialogVisible" :title="id ? '修改评论' : '新增评论'" :before-close="handleBeforeClose">
+    <el-dialog v-model="dialogVisible" :title="id ? '修改用户' : '新增用户'" :before-close="handleBeforeClose">
       <UserEdit ref="reviewsForm" :id="id" @success="editSuccess" />
     </el-dialog>
 
@@ -22,7 +22,7 @@
                 <el-button type="primary" @click="search()">查询</el-button>
                 <el-button @click="reset()">重置</el-button>
                 <el-button v-if="userGroup == '管理员'" type="danger" @click="delInfo()">删除</el-button>
-                <router-link v-if="userGroup == '管理员'" to="./view?" class="el-button float-right el-button--default el-button--primary">添加</router-link>
+                <el-button v-if="userGroup == '管理员'"  @click="addRow">添加</el-button>
               </el-form-item>
             </el-col>
           </el-col>
