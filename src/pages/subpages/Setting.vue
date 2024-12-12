@@ -7,7 +7,7 @@
         </template>
         <div class="text item">
           <div class="avatar">
-            <el-avatar class="avatar" shape="square" :size="50" :src="avatarURL" />
+            <!-- <el-avatar class="avatar" shape="square" :size="50" :src="avatarURL" /> -->
           </div>
           <el-upload
             ref="uploadRef"
@@ -51,6 +51,7 @@
       </el-card>
     </el-col>
   </el-row>
+  <UserOrder></UserOrder>
 </template>
 
 <script setup>
@@ -62,13 +63,14 @@ import notification from '../../utils/notification'
 import useToken from '../../stores/token'
 import useAdmin from '../../stores/admin'
 import router from '../../router'
+import UserOrder from './UserOrder.vue'
 
 const { admin, updateAdmin, removeAdmin  } = useAdmin()
 const { token, removeToken } = useToken()
 const headers = { jwt: token }
 
 const uploadURL = uploadPictureURL()
-const uploadData = { type: 'admin_avatar' }
+const uploadData = { type: 'adminAvatar' }
 
 const form = reactive({
   password: '',

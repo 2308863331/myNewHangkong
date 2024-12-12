@@ -67,7 +67,13 @@ const router = createRouter({
           component: () => import('../pages/subpages/Refund.vue'),
           meta: { title: '退款管理' },
         },
-        
+        // 新增用户订单路由
+        {
+          path: '/userOrder',
+          name: 'userOrder',
+          component: () => import('../pages/subpages/UserOrder.vue'),
+          meta: { title: '用户订单查看' },
+        },
         {
           path: '/setting',
           name: 'setting',

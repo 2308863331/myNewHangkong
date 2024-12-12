@@ -164,9 +164,9 @@ const handleBeforeClose = () => {
     size: 10,
     page: 1,
     nickname: "",
-    user_group: "管理员",
-    login_time: "",
-    create_time: ""
+    userGroup: "管理员",
+    loginTime: "",
+    createTime: ""
   })
   
   const count = ref(0)
@@ -205,8 +205,8 @@ const handleBeforeClose = () => {
   // 重置功能
   function reset() {
     query.nickname = ""
-    query.login_time = ""
-    query.create_time = ""
+    query.loginTime = ""
+    query.createTime = ""
     loadUsersList()
   }
   

@@ -39,9 +39,11 @@
       <!-- 订单状态 -->
       <el-form-item prop="status" label="订单状态">
         <el-select v-model="form.status" placeholder="请选择订单状态">
-          <el-option label="未支付" value="unpaid" />
-          <el-option label="已支付" value="paid" />
-          <el-option label="已完成" value="completed" />
+          <el-option label="未支付" value="未支付" />
+          <el-option label="已支付" value="已支付" />
+          <el-option label="已完成" value="已完成" />
+          <el-option label="取消" value="取消" />
+          <el-option label="已取消" value="已取消" />
         </el-select>
       </el-form-item>
       <!-- 操作按钮 -->

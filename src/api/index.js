@@ -4,8 +4,10 @@ import config from '../config'
 
 
 
-
 //个人信息管理
+export function userOrder(params) {
+  return request.get('/admin/orders/userId',  { params })
+}
 // 登录接口
 export function login(data) {
   return request.post('/admin/login', data)

@@ -88,6 +88,14 @@
           <el-menu-item index="6">
             <el-icon>
               <Setting />
+                <!-- <router-link :to="{ name: 'userOrder' }">
+                  <el-menu-item index="6">
+                    <el-icon>
+                      <Setting />
+                    </el-icon>
+                    <span>用户订单查看</span>
+                  </el-menu-item>
+                </router-link> -->
             </el-icon>
             <span>个人中心</span>
           </el-menu-item>
@@ -111,7 +119,8 @@ const menuIndex = {
   'reviews':'7',
   'coupons':'8',
   'refunds':'9',
-  'setting': '10'
+  'userOrder':'10',
+  'setting': '11'
 
 }
 const active = ref(menuIndex[router.currentRoute.value.name] || '0')
