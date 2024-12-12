@@ -2,7 +2,9 @@ import request from '../utils/request'
 import config from '../config'
 
 
-
+export function getOrderCount() {
+  return request.get('/admin/index/getOrderCount')
+}
 
 //个人信息管理
 export function userOrder(params) {

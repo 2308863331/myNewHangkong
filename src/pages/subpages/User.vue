@@ -19,7 +19,7 @@
           <el-col :xs="24" :sm="24" :lg="24" class="search_btn_wrap">
             <el-col :xs="24" :sm="12" :lg="12" class="search_btn_1">
               <el-form-item>
-                <el-button type="primary" @click="search()">查询</el-button>
+                <!-- <el-button type="primary" @click="search()">查询</el-button> -->
                 <el-button @click="reset()">重置</el-button>
                 <el-button v-if="userGroup == '管理员'" type="danger" @click="delInfo()">删除</el-button>
                 <el-button v-if="userGroup == '管理员'"  @click="addRow">添加</el-button>
@@ -36,7 +36,7 @@
         <el-table-column label="头像" min-width="110">
           <template #default="scope">
             <el-avatar   style="width: 80px;height: 80px;">
-              <img src="/img/error.png" />
+              <!-- <img src="/img/error.png" /> -->
             </el-avatar>
           </template>
         </el-table-column>

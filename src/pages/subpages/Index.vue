@@ -19,7 +19,7 @@
       <el-card class="box-card">
         <template #header>
           <div class="card-header">
-            6月统计信息
+            11月统计信息
           </div>
         </template>
         <div class="info">
@@ -33,8 +33,8 @@
                   </el-icon>
                 </div>
                 <div class="card-right-container">
-                  <p class="number">500</p>
-                  <p>商品数量(个)</p>
+                  <p class="number" >{{orderNum}}</p>
+                  <p>订单数量(个)</p>
                 </div>
               </div>
             </el-col>
@@ -47,8 +47,8 @@
                   </el-icon>
                 </div>
                 <div class="card-right-container">
-                  <p class="number">20</p>
-                  <p>商品分类数量(个)</p>
+                  <p class="number">87</p>
+                  <p>今日订单数</p>
                 </div>
               </div>
             </el-col>
@@ -62,7 +62,8 @@
                 </div>
                 <div class="card-right-container">
                   <p class="number">121</p>
-                  <p>用户访问次数(次)</p>
+                  <p>今日新增用户数</p>
+                  <!-- <p>用户访问次数(次)</p> -->
                 </div>
               </div>
             </el-col>
@@ -86,22 +87,113 @@
       </el-card>
     </el-col>
   </el-row>
+
+  <div>
+    <el-card class="flight-reviews">
+      <div ref="chartContainer" style="width: 100%; height: 400px;"></div>
+    </el-card>
+  </div>
+
 </template>
 
 <script setup>
-import { reactive, onMounted } from 'vue'
-import { getAdmin } from '../../api'
+import { reactive, onMounted, ref } from 'vue'
+import { getAdmin, getOrderCount } from '../../api'
 import useAdmin from '../../stores/admin'
 import { Memo } from '@element-plus/icons-vue'
 import * as echarts from 'echarts'
-
-const { admin, updateAdmin } = useAdmin()
-
 onMounted(() => {
+  initChart();
   loadAdmin()
+  loadOrderCount() // 加载订单统计数据
   initCharts1()
   initCharts2()
 })
+
+//import { getFlightReviews } from '@/api'; // 假设这是获取数据的API函数
+
+// 假设这是从后端获取的数据格式
+const flightReviewsData = ref([]);
+
+
+// const initChart = () => {
+//   //const myChart = echarts.init(chartContainer.value);
+//   // 假设这是从后端获取的数据格式，现在使用虚拟数据填充
+// const flightReviewsData = ref([
+//   {
+//     "flight_id": 1,
+//     "flight_number": "Flight 1",
+//     "avg_rating": 2.3,
+//     "all_comments": "Good flight; On time; Comfortable seats; Bad food; Noisy cabin;"
+//   },
+//   {
+//     "flight_id": 2,
+//     "flight_number": "Flight 2",
+//     "avg_rating": 4.1,
+//     "all_comments": "Good flight; On time; Comfortable seats; Bad food; Noisy cabin;"
+//   }
+//   // ... 添加更多虚拟数据项 ...
+// ]);
+
+const chartContainer = ref(null);
+
+const initChart = () => {
+  // if (!chartContainer.value) return;
+
+  const myChart = echarts.init(chartContainer.value);
+  
+  const option = {
+    title: {
+      text: '航班评论及平均评分'
+    },
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'shadow'
+      }
+    },
+    xAxis: {
+      type: 'category',
+      data: flightReviewsData.value.map(item => item.flight_number),
+      axisLabel: {
+        interval: 0,
+        rotate: 45
+      }
+    },
+    yAxis: {
+      type: 'value'
+    },
+    series: [
+      {
+        name: '平均评分',
+        type: 'bar',
+        data: flightReviewsData.value.map(item => item.avg_rating),
+        label: {
+          show: true,
+          position: 'top'
+        }
+      }
+    ]
+  };
+
+  myChart.setOption(option);
+};
+
+
+
+// onMounted(async () => {
+//   // 获取数据
+//  // flightReviewsData.value = await getFlightReviews();
+//   // 初始化图表
+//   initChart();
+// });
+
+// 初始化 orderNum 为响应式引用，并设置默认值
+let orderNum = ref(0)
+
+const { admin, updateAdmin } = useAdmin()
+
+
 
 const loadAdmin = async () => {
   let data = await getAdmin()
@@ -113,16 +205,38 @@ const loadAdmin = async () => {
 
 // 用户登录信息（模拟数据）
 const loginInfo = reactive({
-  loginTime: '2023-07-22 09:00:00',
-  loginPlace: '北京'
+  loginTime: '2024-12-12 17:45:00',
+  loginPlace: '郑州'
 })
+
+// 订单统计数据
+const orderStats = reactive({
+  totalOrders: 0,
+  todayOrders: 0,
+})
+
+// 加载订单统计数据
+const loadOrderCount = async () => {
+  try {
+    const response = await getOrderCount();
+    if (response) {
+      orderNum.value = response; // 更新 orderNum 的值
+      console.log('Updated Order Count:', orderNum.value);
+    } else {
+      console.error('Unexpected response structure');
+    }
+  } catch (error) {
+    console.error('Error fetching order count:', error.message || error);
+  }
+};
+
 
 // 图表1：月度销售额
 const initCharts1 = () => {
   const myChart = echarts.init(document.getElementById('salesVolume'))
   myChart.setOption({
     color: ['#1493fa'],
-    title: { text: '2022年月度销售额' },
+    title: { text: '2023年月度销售额' },
     xAxis: {
       data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
       name: '月份',
@@ -163,7 +277,7 @@ const initCharts1 = () => {
 const initCharts2 = () => {
   const myChart = echarts.init(document.getElementById('orderQuantity'))
   myChart.setOption({
-    title: { text: '2022年订单数量' },
+    title: { text: '2023年订单数量' },
     color: ['#1493fa'],
     grid: {
       left: '3%',
@@ -172,7 +286,7 @@ const initCharts2 = () => {
       containLabel: true,
     },
     xAxis: {
-      type: 'flights',
+      // type: 'flights',
       data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
       name: '月份',
       // 类目轴中在 boundaryGap 为 true 的时候有效，可以保证刻度线和标签对齐
@@ -243,5 +357,9 @@ const initCharts2 = () => {
       font-weight: bold;
     }
   }
+}
+
+.flight-reviews {
+  margin: 20px;
 }
 </style>

@@ -9,10 +9,10 @@
       <el-table-column prop="paymentMethod" label="支付方式" sortable min-width="120" />
       <el-table-column prop="paymentStatus" label="支付状态" sortable min-width="120" />
       <el-table-column prop="paymentTime" label="支付时间" sortable min-width="180" >
-        <template #default="{ row }">
+        <!-- <template #default="{ row }">
           <el-button type="warning" @click="editRow(row)">编辑</el-button>
           <el-button type="danger" @click="delRow(row)">删除</el-button>
-        </template>
+        </template> -->
       </el-table-column>
     </el-table>
 
@@ -89,9 +89,10 @@ const loadUsers = async () => {
     let response = await userOrder({ userId });
     console.log('API Response:', response); // 打印响应信息以便调试
 
-    // 确认response存在并且有data属性
-    if (response && Array.isArray(response.data)) {
-      usersList.value = response.data;
+    // 确认response存在并且是数组
+    if (response && Array.isArray(response)) {
+      usersList.value = response;
+      console.log('Updated usersList:', usersList.value); // 打印更新后的 usersList
     } else {
       console.error('Unexpected response structure or data is not an array');
       usersList.value = []; // 设置为空数组以防显示“暂无数据”
@@ -101,7 +102,6 @@ const loadUsers = async () => {
     usersList.value = []; // 设置为空数组以防显示“暂无数据”
   }
 }
-
 // 编辑行
 const editRow = (row) => {
   Object.assign(form, row)
